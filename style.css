@@ -1,0 +1,12 @@
+h1 {
+    background-color: aqua;
+}
+.paragraf::before{
+    content: ">> ";
+    color: red;
+}
+
+.paragraf::after{
+    content: " <<";
+    color: red;
+}
