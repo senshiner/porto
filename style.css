@@ -102,6 +102,24 @@ li.completed {
   font-size: 16px;
 }
 
+.status-label {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.status-label.ongoing {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.status-label.done {
+  background-color: #28a745;
+  color: #fff;
+}
+
 .actions {
   display: flex;
   gap: 5px;
