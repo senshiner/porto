@@ -1,3 +1,22 @@
+// Ambil elemen dari DOM
+const taskInput = document.getElementById('taskInput');
+const addTaskButton = document.getElementById('addTaskButton');
+const taskList = document.getElementById('taskList');
+
+// Muat daftar tugas dari Local Storage
+document.addEventListener('DOMContentLoaded', loadTasks);
+
+// Tambah tugas
+addTaskButton.addEventListener('click', () => {
+  const taskText = taskInput.value.trim();
+  if (taskText) {
+    const task = createTaskElement(taskText);
+    taskList.appendChild(task);
+    saveTaskToLocalStorage(taskText, false); // Status awal adalah Ongoing (false)
+    taskInput.value = '';
+  }
+});
+
 // Membuat elemen tugas
 function createTaskElement(taskText, isCompleted = false) {
   const listItem = document.createElement('li');
@@ -65,4 +84,40 @@ function editTask(listItem, oldTaskText) {
     listItem.querySelector('.task').textContent = newTaskText.trim();
     updateTaskInLocalStorage(oldTaskText, false, newTaskText.trim());
   }
+}
+
+// Muat tugas dari Local Storage
+function loadTasks() {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.forEach(task => {
+    const taskElement = createTaskElement(task.text, task.completed);
+    taskList.appendChild(taskElement);
+  });
+}
+
+// Simpan tugas ke Local Storage
+function saveTaskToLocalStorage(taskText, isCompleted) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.push({ text: taskText, completed: isCompleted });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Perbarui tugas di Local Storage
+function updateTaskInLocalStorage(taskText, isCompleted, newTaskText) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const taskIndex = tasks.findIndex(task => task.text === taskText);
+  if (taskIndex > -1) {
+    tasks[taskIndex].completed = isCompleted;
+    if (newTaskText) {
+      tasks[taskIndex].text = newTaskText;
+    }
+  }
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Hapus tugas dari Local Storage
+function removeTaskFromLocalStorage(taskText) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const filteredTasks = tasks.filter(task => task.text !== taskText);
+  localStorage.setItem('tasks', JSON.stringify(filteredTasks));
 }
