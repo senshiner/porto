@@ -75,6 +75,33 @@ li.completed {
   color: #155724;
 }
 
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6a11cb;
+  border-radius: 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.status-box.checked {
+  background-color: #6a11cb;
+  color: white;
+}
+
+.status-box.checked::before {
+  content: '✓';
+  font-size: 16px;
+}
+
 .actions {
   display: flex;
   gap: 5px;
@@ -88,27 +115,9 @@ li.completed {
   font-size: 14px;
 }
 
-.actions .check {
-  background: #28a745;
-  color: white;
-}
-
-.actions .edit {
-  background: #ffc107;
-  color: white;
-}
-
 .actions .delete {
   background: #dc3545;
   color: white;
-}
-
-.actions .check:hover {
-  background: #218838;
-}
-
-.actions .edit:hover {
-  background: #e0a800;
 }
 
 .actions .delete:hover {
