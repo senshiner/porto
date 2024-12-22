@@ -71,8 +71,8 @@ li {
 }
 
 li.completed {
-  text-decoration: line-through;
-  color: #888;
+  background: #d4edda;
+  color: #155724;
 }
 
 .actions {
@@ -88,6 +88,11 @@ li.completed {
   font-size: 14px;
 }
 
+.actions .check {
+  background: #28a745;
+  color: white;
+}
+
 .actions .edit {
   background: #ffc107;
   color: white;
@@ -96,6 +101,10 @@ li.completed {
 .actions .delete {
   background: #dc3545;
   color: white;
+}
+
+.actions .check:hover {
+  background: #218838;
 }
 
 .actions .edit:hover {
