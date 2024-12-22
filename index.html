@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>To-do List</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <h1>To-do List</h1> 
-   <p class="paragraf">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem nesciunt culpa quis eos eum temporibus quo soluta, obcaecati quos magni eius perferendis distinctio est facilis exercitationem totam, quia harum modi.</p>
-    <script src="script.js"></script>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <div class="input-container">
+      <input type="text" id="taskInput" placeholder="Add a new task..." />
+      <button id="addTaskButton">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
