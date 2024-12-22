@@ -1,32 +1,33 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f9;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #fff;
 }
 
 .container {
-  background: white;
+  background: #fff;
+  color: #333;
+  border-radius: 10px;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 400px;
-  text-align: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
   margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  text-align: center;
 }
 
 .input-container {
   display: flex;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
@@ -34,38 +35,39 @@ input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 16px;
 }
 
 button {
   padding: 10px 15px;
   border: none;
-  background-color: #007bff;
+  background: #6a11cb;
   color: white;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #4e0ca3;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
 li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9f9f9;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 li.completed {
@@ -75,30 +77,31 @@ li.completed {
 
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .actions button {
   padding: 5px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .actions .edit {
-  background-color: #ffc107;
+  background: #ffc107;
   color: white;
 }
 
 .actions .delete {
-  background-color: #dc3545;
+  background: #dc3545;
   color: white;
 }
 
 .actions .edit:hover {
-  background-color: #e0a800;
+  background: #e0a800;
 }
 
 .actions .delete:hover {
-  background-color: #c82333;
+  background: #c82333;
 }
