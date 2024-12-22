@@ -22,40 +22,23 @@ function createTaskElement(taskText, isCompleted = false) {
   const listItem = document.createElement('li');
   if (isCompleted) listItem.classList.add('completed');
   listItem.innerHTML = `
-    <span class="task">${taskText}</span>
+    <div class="status-container">
+      <div class="status-box ${isCompleted ? 'checked' : ''}"></div>
+      <span class="task">${taskText}</span>
+    </div>
     <div class="actions">
-      <button class="check">${isCompleted ? 'Ongoing' : 'Done'}</button>
-      ${isCompleted ? '' : '<button class="edit">Edit</button>'}
       <button class="delete">Delete</button>
     </div>
   `;
 
-  // Event untuk tombol Done/Ongoing
-  listItem.querySelector('.check').addEventListener('click', () => {
-    const isCompleted = listItem.classList.toggle('completed');
-    listItem.querySelector('.check').textContent = isCompleted ? 'Ongoing' : 'Done';
-
-    // Hapus tombol Edit jika status Done
-    const editButton = listItem.querySelector('.edit');
-    if (isCompleted && editButton) {
-      editButton.remove();
-    } else if (!isCompleted && !listItem.querySelector('.edit')) {
-      const editBtn = document.createElement('button');
-      editBtn.className = 'edit';
-      editBtn.textContent = 'Edit';
-      listItem.querySelector('.actions').insertBefore(editBtn, listItem.querySelector('.delete'));
-      editBtn.addEventListener('click', () => editTask(listItem, taskText));
-    }
-
-    updateTaskInLocalStorage(taskText, isCompleted);
+  // Event untuk tombol status (Done/Ongoing)
+  const statusBox = listItem.querySelector('.status-box');
+  statusBox.addEventListener('click', () => {
+    statusBox.classList.toggle('checked');
+    const isNowCompleted = statusBox.classList.contains('checked');
+    listItem.classList.toggle('completed');
+    updateTaskInLocalStorage(taskText, isNowCompleted);
   });
-
-  // Event untuk tombol Edit
-  if (!isCompleted) {
-    listItem.querySelector('.edit').addEventListener('click', () => {
-      editTask(listItem, taskText);
-    });
-  }
 
   // Event untuk tombol Delete
   listItem.querySelector('.delete').addEventListener('click', () => {
@@ -64,15 +47,6 @@ function createTaskElement(taskText, isCompleted = false) {
   });
 
   return listItem;
-}
-
-// Fungsi Edit Tugas
-function editTask(listItem, oldTaskText) {
-  const newTaskText = prompt('Edit your task:', oldTaskText);
-  if (newTaskText) {
-    listItem.querySelector('.task').textContent = newTaskText.trim();
-    updateTaskInLocalStorage(oldTaskText, false, newTaskText.trim());
-  }
 }
 
 // Muat tugas dari Local Storage
@@ -92,11 +66,10 @@ function saveTaskToLocalStorage(taskText, isCompleted) {
 }
 
 // Perbarui tugas di Local Storage
-function updateTaskInLocalStorage(oldTaskText, isCompleted, newTaskText = null) {
+function updateTaskInLocalStorage(taskText, isCompleted) {
   const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  const taskIndex = tasks.findIndex(task => task.text === oldTaskText);
+  const taskIndex = tasks.findIndex(task => task.text === taskText);
   if (taskIndex > -1) {
-    if (newTaskText) tasks[taskIndex].text = newTaskText;
     tasks[taskIndex].completed = isCompleted;
   }
   localStorage.setItem('tasks', JSON.stringify(tasks));
