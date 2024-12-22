@@ -20,19 +20,22 @@ addTaskButton.addEventListener('click', () => {
 // Membuat elemen tugas
 function createTaskElement(taskText, isCompleted = false) {
   const listItem = document.createElement('li');
-  listItem.className = isCompleted ? 'completed' : '';
+  if (isCompleted) listItem.classList.add('completed');
   listItem.innerHTML = `
     <span class="task">${taskText}</span>
     <div class="actions">
+      <button class="check">${isCompleted ? 'Uncheck' : 'Check'}</button>
       <button class="edit">Edit</button>
       <button class="delete">Delete</button>
     </div>
   `;
 
-  // Event untuk centang
-  listItem.querySelector('.task').addEventListener('click', () => {
+  // Event untuk tombol centang
+  listItem.querySelector('.check').addEventListener('click', () => {
     listItem.classList.toggle('completed');
-    updateTaskInLocalStorage(taskText, listItem.classList.contains('completed'));
+    const isCompleted = listItem.classList.contains('completed');
+    listItem.querySelector('.check').textContent = isCompleted ? 'Uncheck' : 'Check';
+    updateTaskInLocalStorage(taskText, isCompleted);
   });
 
   // Event untuk edit
