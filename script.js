@@ -3,48 +3,86 @@ const taskInput = document.getElementById('taskInput');
 const addTaskButton = document.getElementById('addTaskButton');
 const taskList = document.getElementById('taskList');
 
-// Tambah tugas ke daftar
+// Muat daftar tugas dari Local Storage
+document.addEventListener('DOMContentLoaded', loadTasks);
+
+// Tambah tugas
 addTaskButton.addEventListener('click', () => {
   const taskText = taskInput.value.trim();
-
   if (taskText) {
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `
-      <span class="task">${taskText}</span>
-      <div class="actions">
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
-      </div>
-    `;
-
-    listItem.addEventListener('click', toggleComplete);
-    taskList.appendChild(listItem);
+    const task = createTaskElement(taskText);
+    taskList.appendChild(task);
+    saveTaskToLocalStorage(taskText, false);
     taskInput.value = '';
   }
 });
 
-// Toggle centang/tidak centang tugas
-function toggleComplete(event) {
-  if (event.target.classList.contains('task')) {
-    this.classList.toggle('completed');
-  }
+// Membuat elemen tugas
+function createTaskElement(taskText, isCompleted = false) {
+  const listItem = document.createElement('li');
+  listItem.className = isCompleted ? 'completed' : '';
+  listItem.innerHTML = `
+    <span class="task">${taskText}</span>
+    <div class="actions">
+      <button class="edit">Edit</button>
+      <button class="delete">Delete</button>
+    </div>
+  `;
+
+  // Event untuk centang
+  listItem.querySelector('.task').addEventListener('click', () => {
+    listItem.classList.toggle('completed');
+    updateTaskInLocalStorage(taskText, listItem.classList.contains('completed'));
+  });
+
+  // Event untuk edit
+  listItem.querySelector('.edit').addEventListener('click', () => {
+    const newTaskText = prompt('Edit your task:', taskText);
+    if (newTaskText) {
+      listItem.querySelector('.task').textContent = newTaskText.trim();
+      updateTaskInLocalStorage(taskText, false, newTaskText.trim());
+    }
+  });
+
+  // Event untuk hapus
+  listItem.querySelector('.delete').addEventListener('click', () => {
+    taskList.removeChild(listItem);
+    removeTaskFromLocalStorage(taskText);
+  });
+
+  return listItem;
 }
 
-// Hapus atau edit tugas
-taskList.addEventListener('click', (event) => {
-  const target = event.target;
+// Muat tugas dari Local Storage
+function loadTasks() {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.forEach(task => {
+    const taskElement = createTaskElement(task.text, task.completed);
+    taskList.appendChild(taskElement);
+  });
+}
 
-  if (target.classList.contains('delete')) {
-    const listItem = target.closest('li');
-    taskList.removeChild(listItem);
-  }
+// Simpan tugas ke Local Storage
+function saveTaskToLocalStorage(taskText, isCompleted) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  tasks.push({ text: taskText, completed: isCompleted });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
-  if (target.classList.contains('edit')) {
-    const listItem = target.closest('li');
-    const taskText = listItem.querySelector('.task');
-    const newTaskText = prompt('Edit your task:', taskText.textContent);
-    if (newTaskText !== null) {
-      taskText.textContent = newTaskText.trim();
-    }
+// Perbarui tugas di Local Storage
+function updateTaskInLocalStorage(oldTaskText, isCompleted, newTaskText = null) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const taskIndex = tasks.findIndex(task => task.text === oldTaskText);
+  if (taskIndex > -1) {
+    if (newTaskText) tasks[taskIndex].text = newTaskText;
+    tasks[taskIndex].completed = isCompleted;
   }
-});
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Hapus tugas dari Local Storage
+function removeTaskFromLocalStorage(taskText) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const filteredTasks = tasks.filter(task => task.text !== taskText);
+  localStorage.setItem('tasks', JSON.stringify(filteredTasks));
+}
