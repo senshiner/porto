@@ -52,16 +52,6 @@
   transition: all 0.3s ease;
 }
 
-.btn-dark {
-  background-color: #314352;
-  border-color: #314352;
-}
-
-.btn-dark:hover {
-  background-color: #1e2b37;
-  border-color: #1e2b37;
-}
-
 /* Section Spacing */
 section {
   padding-top: 5rem;
@@ -117,22 +107,6 @@ section {
 .card-img-wrapper {
   position: relative;
   overflow: hidden;
-}
-
-.card-img-overlay {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: transparent;
-  padding: 0;
-}
-
-/* Badge Styling */
-.badge {
-  margin-right: 5px;
-  font-size: 0.7rem;
-  padding: 5px 8px;
-  font-weight: 500;
 }
 
 /* Button Group Styling */
